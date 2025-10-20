@@ -1,0 +1,127 @@
+@import '../variables.scss';
+
+// metric-card.component.scss
+.metric-card {
+  background: $bg-primary;
+  border-radius: $border-radius;
+  padding: 1.5rem;
+  box-shadow: $shadow-sm;
+  border: 1px solid $border-color;
+  transition: $transition;
+
+  &:hover {
+    box-shadow: $shadow-md;
+    transform: translateY(-2px);
+  }
+
+  &.large {
+    grid-column: span 2;
+
+    @media (max-width: 768px) {
+      grid-column: span 1;
+    }
+  }
+
+  .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1.25rem;
+
+    .title-section {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+
+      .icon {
+        width: 40px;
+        height: 40px;
+        background: linear-gradient(135deg, $primary-green 0%, #22C55E 100%);
+        border-radius: $border-radius-sm;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        i {
+          color: white;
+          font-size: 1.25rem;
+        }
+      }
+
+      h3 {
+        font-size: 0.875rem;
+        font-weight: 500;
+        color: $text-secondary;
+        margin: 0;
+      }
+    }
+
+    .export-btn {
+      background: $primary-green;
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: $border-radius-sm;
+      font-size: 0.875rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: $transition;
+
+      &:hover {
+        background: darken($primary-green, 5%);
+        transform: translateY(-1px);
+      }
+    }
+  }
+
+  .card-body {
+    .value {
+      font-size: 2rem;
+      font-weight: 700;
+      color: $text-primary;
+      margin-bottom: 0.75rem;
+      letter-spacing: -0.5px;
+    }
+
+    .change-indicator {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.875rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+
+      i {
+        font-size: 1rem;
+      }
+
+      &.positive {
+        color: $success;
+
+        i {
+          transform: rotate(-45deg);
+        }
+      }
+
+      &.negative {
+        color: $danger;
+
+        i {
+          transform: rotate(45deg);
+        }
+      }
+
+      .period {
+        color: $text-light;
+        font-weight: 400;
+        margin-left: 0.25rem;
+      }
+    }
+
+    .subtitle {
+      font-size: 0.875rem;
+      color: $text-secondary;
+      margin: 0;
+    }
+  }
+}

@@ -1,0 +1,468 @@
+<div class="admin-dashboard">
+  <!-- Header Section -->
+  <div class="dashboard-header">
+    <div class="header-content">
+      <div class="header-left">
+        <h1 class="dashboard-title">
+          <i class="fas fa-tachometer-alt"></i>
+          Dashboard Administrateur
+        </h1>
+        <p class="dashboard-subtitle">Gérez votre plateforme PhotoJ</p>
+      </div>
+      <div class="header-right">
+        <button (click)="logout()" class="logout-btn">
+          <i class="fas fa-sign-out-alt"></i>
+          Déconnexion
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Stats Grid -->
+  <div class="stats-section" *ngIf="!loading">
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-icon">
+          <i class="fas fa-box"></i>
+        </div>
+        <div class="stat-content">
+          <h3>Total Produits</h3>
+          <p class="stat-number">{{ adminStats.totalProducts }}</p>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon">
+          <i class="fas fa-clock"></i>
+        </div>
+        <div class="stat-content">
+          <h3>En Attente</h3>
+          <p class="stat-number">{{ adminStats.pendingProducts }}</p>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon">
+          <i class="fas fa-check-circle"></i>
+        </div>
+        <div class="stat-content">
+          <h3>Approuvés</h3>
+          <p class="stat-number">{{ adminStats.approvedProducts }}</p>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon">
+          <i class="fas fa-times-circle"></i>
+        </div>
+        <div class="stat-content">
+          <h3>Rejetés</h3>
+          <p class="stat-number">{{ adminStats.rejectedProducts }}</p>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon">
+          <i class="fas fa-users"></i>
+        </div>
+        <div class="stat-content">
+          <h3>Utilisateurs</h3>
+          <p class="stat-number">{{ adminStats.totalUsers }}</p>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon">
+          <i class="fas fa-crown"></i>
+        </div>
+        <div class="stat-content">
+          <h3>Utilisateurs VIP</h3>
+          <p class="stat-number">{{ adminStats.vipUsers }}</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="quick-actions">
+      <h3>Actions Rapides</h3>
+      <div class="actions-grid">
+        <button class="action-card" (click)="switchView('all')">
+          <div class="action-icon">
+            <i class="fas fa-list"></i>
+          </div>
+          <div class="action-content">
+            <h4>Gérer les Produits</h4>
+            <p>Voir tous les produits et gérer leur statut VIP</p>
+          </div>
+          <div class="action-arrow">
+            <i class="fas fa-chevron-right"></i>
+          </div>
+        </button>
+
+        <button class="action-card" (click)="switchView('pending')">
+          <div class="action-icon">
+            <i class="fas fa-gavel"></i>
+          </div>
+          <div class="action-content">
+            <h4>Modérer les Produits</h4>
+            <p>Approuver ou rejeter les produits en attente</p>
+          </div>
+          <div class="action-arrow">
+            <i class="fas fa-chevron-right"></i>
+          </div>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Moderation Section -->
+  <div class="moderation-section" *ngIf="!loading">
+    <div class="section-header">
+      <div class="header-content">
+        <div class="header-left">
+          <h2>
+            <i class="fas fa-gavel"></i>
+            Gestion des Produits
+          </h2>
+          <p class="section-subtitle">{{ viewMode === 'pending' ? 'Produits en attente d\'approbation' : 'Tous les produits' }}</p>
+        </div>
+        <div class="header-right">
+          <div class="view-toggle">
+            <button
+              (click)="switchView('pending')"
+              [class.active]="viewMode === 'pending'"
+              class="toggle-btn">
+              <i class="fas fa-clock"></i>
+              En Attente
+            </button>
+            <button
+              (click)="switchView('all')"
+              [class.active]="viewMode === 'all'"
+              class="toggle-btn">
+              <i class="fas fa-list"></i>
+              Tous
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Desktop Table View -->
+    <div class="table-container desktop-view" *ngIf="currentProducts.length > 0">
+      <table class="products-table">
+        <thead>
+          <tr>
+            <th>
+              <div class="header-cell">
+                Produit
+                <button (click)="sortBy('title')" class="sort-btn">
+                  <i class="fas" [class.fa-sort]="sortField !== 'title'" [class.fa-sort-up]="sortField === 'title' && sortOrder === 'asc'" [class.fa-sort-down]="sortField === 'title' && sortOrder === 'desc'"></i>
+                </button>
+              </div>
+            </th>
+            <th>
+              <div class="header-cell">
+                Vendeur
+                <button (click)="sortBy('userName')" class="sort-btn">
+                  <i class="fas" [class.fa-sort]="sortField !== 'userName'" [class.fa-sort-up]="sortField === 'userName' && sortOrder === 'asc'" [class.fa-sort-down]="sortField === 'userName' && sortOrder === 'desc'"></i>
+                </button>
+              </div>
+            </th>
+            <th>
+              <div class="header-cell">
+                Date
+                <button (click)="sortBy('createdAt')" class="sort-btn">
+                  <i class="fas" [class.fa-sort]="sortField !== 'createdAt'" [class.fa-sort-up]="sortField === 'createdAt' && sortOrder === 'asc'" [class.fa-sort-down]="sortField === 'createdAt' && sortOrder === 'desc'"></i>
+                </button>
+              </div>
+            </th>
+            <th>Statut</th>
+            <th>Images</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let product of paginatedProducts; trackBy: trackByProductId">
+            <td class="product-info">
+              <div class="product-title">{{ product.title }}</div>
+              <div class="product-description">{{ product.description | slice:0:50 }}...</div>
+            </td>
+            <td class="seller-info">
+              <div class="seller-name">{{ product.user.userName }}</div>
+              <div class="seller-email">{{ product.user.email }}</div>
+            </td>
+            <td class="date-info">
+              {{ product.createdAt | date:'dd/MM/yyyy' }}
+            </td>
+            <td class="status-info" *ngIf="viewMode === 'all'">
+              <span class="status-badge" [class]="'status-' + product.status.toLowerCase()">
+                {{ product.status === 'APPROVED' ? 'Approuvé' : product.status === 'PENDING' ? 'En attente' : 'Rejeté' }}
+              </span>
+            </td>
+            <td class="images-info">
+              <div class="image-count">
+                <i class="fas fa-images"></i>
+                {{ product.images?.length || 0 }}
+              </div>
+            </td>
+            <td class="actions">
+              <button (click)="viewProductDetails(product)" class="action-btn view" title="Voir les détails">
+                <i class="fas fa-eye"></i>
+                Détails
+              </button>
+              <button (click)="approveProduct(product.id)" class="action-btn approve" title="Approuver le produit">
+                <i class="fas fa-check"></i>
+                Approuver
+              </button>
+              <button (click)="rejectProduct(product.id)" class="action-btn reject" title="Rejeter le produit">
+                <i class="fas fa-times"></i>
+                Rejeter
+              </button>
+              <button
+                (click)="toggleProductVip(product.id)"
+                class="action-btn vip"
+                [class.active]="product.priority"
+                title="{{ product.priority ? 'Retirer le statut VIP' : 'Passer en VIP' }}">
+                <i class="fas fa-star"></i>
+                {{ product.priority ? 'VIP' : 'VIP' }}
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Mobile Card View -->
+    <div class="mobile-view" *ngIf="currentProducts.length > 0">
+      <div class="mobile-sort-controls">
+        <select (change)="sortBy($any($event.target).value)" class="sort-select">
+          <option value="createdAt">Trier par date</option>
+          <option value="title">Trier par titre</option>
+          <option value="userName">Trier par vendeur</option>
+        </select>
+      </div>
+
+      <div class="mobile-cards">
+        <div class="mobile-card" *ngFor="let product of paginatedProducts; trackBy: trackByProductId">
+          <div class="mobile-card-header">
+            <div class="mobile-product-title">{{ product.title }}</div>
+            <div class="mobile-product-date">{{ product.createdAt | date:'dd/MM/yyyy' }}</div>
+          </div>
+
+          <div class="mobile-card-content">
+            <div class="mobile-product-description">
+              {{ product.description | slice:0:80 }}...
+            </div>
+
+            <div class="mobile-seller-info">
+              <div class="mobile-seller-avatar">
+                <i class="fas fa-user"></i>
+              </div>
+              <div class="mobile-seller-details">
+                <div class="mobile-seller-name">{{ product.user.userName }}</div>
+                <div class="mobile-seller-email">{{ product.user.email }}</div>
+              </div>
+            </div>
+
+            <div class="mobile-product-meta">
+              <div class="mobile-image-count">
+                <i class="fas fa-images"></i>
+                {{ product.images?.length || 0 }} photo{{ (product.images?.length || 0) > 1 ? 's' : '' }}
+              </div>
+            </div>
+          </div>
+
+          <div class="mobile-card-actions">
+            <button (click)="viewProductDetails(product)" class="mobile-action-btn view">
+              <i class="fas fa-eye"></i>
+              Détails
+            </button>
+            <div class="mobile-main-actions">
+              <button (click)="approveProduct(product.id)" class="mobile-action-btn approve">
+                <i class="fas fa-check"></i>
+                Approuver
+              </button>
+              <button (click)="rejectProduct(product.id)" class="mobile-action-btn reject">
+                <i class="fas fa-times"></i>
+                Rejeter
+              </button>
+              <button
+                (click)="toggleProductVip(product.id)"
+                class="mobile-action-btn vip"
+                [class.active]="product.priority">
+                <i class="fas fa-star"></i>
+                {{ product.priority ? 'VIP' : 'VIP' }}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mobile Pagination -->
+      <div class="mobile-pagination">
+        <button
+          (click)="previousPage()"
+          [disabled]="currentPage === 1"
+          class="mobile-page-btn">
+          <i class="fas fa-chevron-left"></i>
+        </button>
+        <span class="mobile-page-info">{{ currentPage }} / {{ totalPages }}</span>
+        <button
+          (click)="nextPage()"
+          [disabled]="currentPage === totalPages"
+          class="mobile-page-btn">
+          <i class="fas fa-chevron-right"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Empty State -->
+    <div class="empty-state" *ngIf="currentProducts.length === 0">
+      <div class="empty-icon">
+        <i class="fas fa-check-circle"></i>
+      </div>
+      <h3>{{ viewMode === 'pending' ? 'Tout est à jour !' : 'Aucun produit' }}</h3>
+      <p>{{ viewMode === 'pending' ? 'Aucun produit en attente de modération.' : 'Aucun produit dans la base de données.' }}</p>
+    </div>
+  </div>
+
+  <!-- Product Details Modal -->
+  <div class="modal-overlay" *ngIf="selectedProduct" (click)="closeModal()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h3>Détails du Produit</h3>
+        <button (click)="closeModal()" class="close-btn">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+
+      <div class="modal-body" *ngIf="selectedProduct">
+        <div class="product-details">
+          <div class="detail-section">
+            <h4>Informations générales</h4>
+            <div class="detail-grid">
+              <div class="detail-item">
+                <label>Titre:</label>
+                <span>{{ selectedProduct.title }}</span>
+              </div>
+              <div class="detail-item">
+                <label>Description:</label>
+                <span>{{ selectedProduct.description }}</span>
+              </div>
+              <div class="detail-item">
+                <label>Prix:</label>
+                <span>{{ selectedProduct.price ? selectedProduct.price + ' FCFA' : 'Non spécifié' }}</span>
+              </div>
+              <div class="detail-item">
+                <label>Date de création:</label>
+                <span>{{ selectedProduct.createdAt | date:'dd/MM/yyyy à HH:mm' }}</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="detail-section">
+            <h4>Informations vendeur</h4>
+            <div class="seller-card">
+              <div class="seller-avatar">
+                <i class="fas fa-user"></i>
+              </div>
+              <div class="seller-info">
+                <div class="seller-name">{{ selectedProduct.user.userName }}</div>
+                <div class="seller-email">{{ selectedProduct.user.email }}</div>
+                <div class="seller-phone">{{ selectedProduct.user.phoneNumber }}</div>
+                <div class="seller-whatsapp" *ngIf="selectedProduct.user.whatsappNumber">
+                  WhatsApp: {{ selectedProduct.user.whatsappNumber }}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="detail-section" *ngIf="selectedProduct.images && selectedProduct.images.length > 0">
+            <h4>Images du produit</h4>
+            <div class="images-gallery">
+              <img *ngFor="let image of selectedProduct.images" [src]="image.url" alt="Product image" class="gallery-image">
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-actions">
+          <button (click)="approveProduct(selectedProduct.id)" class="action-btn approve">
+            <i class="fas fa-check"></i>
+            Approuver le produit
+          </button>
+          <button (click)="rejectProduct(selectedProduct.id)" class="action-btn reject">
+            <i class="fas fa-times"></i>
+            Rejeter le produit
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Loading State -->
+  <div class="loading-state" *ngIf="loading">
+    <div class="loading-spinner">
+      <div class="spinner"></div>
+    </div>
+    <p>Chargement du dashboard...</p>
+  </div>
+</div>
+
+<!-- Reject Modal -->
+<div class="modal-overlay" *ngIf="showRejectModal" (click)="closeRejectModal()">
+  <div class="modal-content reject-modal" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h3>
+        <i class="fas fa-times-circle"></i>
+        Rejeter le produit
+      </h3>
+      <button class="close-btn" (click)="closeRejectModal()">&times;</button>
+    </div>
+
+    <div class="modal-body" *ngIf="selectedProduct">
+      <div class="product-summary">
+        <div class="product-info-card">
+          <h4>{{ selectedProduct.title }}</h4>
+          <p class="product-description">{{ selectedProduct.description }}</p>
+          <div class="seller-info">
+            <i class="fas fa-user"></i>
+            <span><strong>{{ selectedProduct.user.userName }}</strong> - {{ selectedProduct.user.email }}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="reason-section">
+        <label for="rejectReason" class="reason-label">
+          <i class="fas fa-comment-alt"></i>
+          Raison du rejet <span class="required">*</span>
+        </label>
+        <textarea
+          id="rejectReason"
+          [(ngModel)]="rejectReason"
+          placeholder="Veuillez expliquer clairement la raison pour laquelle ce produit est rejeté. Cette information sera communiquée au vendeur."
+          rows="5"
+          class="reason-textarea"
+          maxlength="500"
+        ></textarea>
+        <div class="character-count">
+          {{ rejectReason.length }}/500 caractères
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <button class="cancel-btn" (click)="closeRejectModal()">
+        <i class="fas fa-arrow-left"></i>
+        Annuler
+      </button>
+      <button
+        class="confirm-reject-btn"
+        (click)="confirmReject()"
+        [disabled]="!rejectReason.trim()"
+      >
+        <i class="fas fa-times"></i>
+        Confirmer le rejet
+      </button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,65 @@
+@import '../variables.scss';
+
+// sales-chart.component.scss
+.sales-chart-card {
+  background: $bg-primary;
+  border-radius: $border-radius;
+  padding: 1.5rem;
+  box-shadow: $shadow-sm;
+  border: 1px solid $border-color;
+  grid-column: span 2;
+
+  @media (max-width: 768px) {
+    grid-column: span 1;
+  }
+
+  .chart-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+
+    h3 {
+      font-size: 1rem;
+      font-weight: 600;
+      color: $text-primary;
+      margin: 0;
+    }
+
+    .legend {
+      display: flex;
+      gap: 2rem;
+
+      .legend-item {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 0.875rem;
+        color: $text-secondary;
+
+        .dot {
+          width: 12px;
+          height: 12px;
+          border-radius: 3px;
+
+          &.sales {
+            background: $primary-green;
+          }
+
+          &.revenue {
+            background: $danger;
+          }
+        }
+      }
+    }
+  }
+
+  .chart-container {
+    height: 250px;
+    position: relative;
+
+    canvas {
+      max-height: 100%;
+    }
+  }
+}

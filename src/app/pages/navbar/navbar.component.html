@@ -1,0 +1,68 @@
+<nav class="navbar">
+    <a href="#" class="logo">
+        <img [src]="logoImage" alt="Logo" class="logo-image">
+    </a>
+
+    <div class="nav-right">
+      <a routerLink="/add-product" class="publish-link" *ngIf="isLoggedIn">
+            <i class="fas fa-plus"></i>
+            Publier
+        </a>
+
+        <!-- Notification Bell -->
+        <div class="notification-container" *ngIf="isLoggedIn">
+            <button class="notification-btn" (click)="toggleNotifications()">
+                <i class="fas fa-bell"></i>
+                <span class="notification-badge" *ngIf="unreadNotificationsCount > 0">{{ unreadNotificationsCount }}</span>
+            </button>
+
+            <div class="notifications-dropdown" [class.show]="showNotifications">
+                <div class="notifications-header">
+                    <h4>Notifications</h4>
+                    <button (click)="markAllAsRead()" class="mark-read-btn" *ngIf="unreadNotificationsCount > 0">
+                        Tout marquer comme lu
+                    </button>
+                </div>
+                <div class="notifications-list">
+                    <div *ngFor="let notification of notifications" class="notification-item" [class.unread]="!notification.isRead">
+                        <div class="notification-icon">
+                            <i class="fas" [class]="getNotificationIcon(notification.type)"></i>
+                        </div>
+                        <div class="notification-content">
+                            <p class="notification-message">{{ notification.message }}</p>
+                            <span class="notification-date">{{ notification.createdAt | date:'dd/MM/yyyy HH:mm' }}</span>
+                        </div>
+                        <button (click)="markAsRead(notification.id)" class="mark-read-single" *ngIf="!notification.isRead">
+                            <i class="fas fa-check"></i>
+                        </button>
+                    </div>
+                    <div *ngIf="notifications.length === 0" class="no-notifications">
+                        <i class="fas fa-bell-slash"></i>
+                        <p>Aucune notification</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="avatar-container" *ngIf="isLoggedIn">
+            <div class="avatar" (click)="toggleDropdown()" [class.active]="isDropdownOpen">
+                {{ userInitials }}
+            </div>
+            <div class="dropdown" [class.show]="isDropdownOpen">
+                <div class="dropdown-item" (click)="handleProfile()">
+                    <i class="fas fa-user"></i>
+                    Profile
+                </div>
+                <div class="dropdown-item" (click)="handleSettings()">
+                    <i class="fas fa-cog"></i>
+                    Settings
+                </div>
+                <div class="dropdown-item" (click)="handleLogout()">
+                    <i class="fas fa-sign-out-alt"></i>
+                    Logout
+                </div>
+            </div>
+        </div>
+        <a routerLink="/login" class="login-btn" *ngIf="!isLoggedIn">Se connecter</a>
+    </div>
+</nav>

@@ -1,0 +1,124 @@
+@import '../variables.scss';
+
+// header.component.scss
+.main-header {
+  background: $bg-primary;
+  padding: 1.25rem 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid $border-color;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: $shadow-sm;
+
+  .logo {
+    display: flex;
+    align-items: center;
+
+    img {
+      height: 40px;
+      width: auto;
+    }
+  }
+
+  .main-nav {
+    display: flex;
+    gap: 0.5rem;
+    flex: 1;
+    justify-content: center;
+
+    .nav-item {
+      padding: 0.75rem 1.5rem;
+      border: none;
+      background: transparent;
+      color: $text-secondary;
+      font-size: 0.95rem;
+      font-weight: 500;
+      cursor: pointer;
+      border-radius: $border-radius-sm;
+      transition: $transition;
+      position: relative;
+
+      &:hover {
+        background: $bg-hover;
+        color: $text-primary;
+      }
+
+      &.active {
+        background: $primary-green;
+        color: white;
+      }
+    }
+  }
+
+  .user-section {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+
+    .notifications {
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      padding: 0.5rem;
+      border-radius: 50%;
+      transition: $transition;
+      position: relative;
+
+      &:hover {
+        background: $bg-hover;
+      }
+
+      i {
+        font-size: 1.25rem;
+        color: $text-secondary;
+      }
+
+      &::after {
+        content: '';
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        width: 8px;
+        height: 8px;
+        background: $danger;
+        border-radius: 50%;
+        border: 2px solid white;
+      }
+    }
+
+    .user-profile {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.5rem 1rem;
+      border-radius: $border-radius;
+      cursor: pointer;
+      transition: $transition;
+
+      &:hover {
+        background: $bg-hover;
+      }
+
+      img {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        object-fit: cover;
+      }
+
+      span {
+        font-size: 0.95rem;
+        font-weight: 500;
+        color: $text-primary;
+      }
+
+      i {
+        font-size: 0.875rem;
+        color: $text-secondary;
+      }
+    }
+  }
+}

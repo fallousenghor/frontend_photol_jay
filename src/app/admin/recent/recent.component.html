@@ -1,0 +1,53 @@
+<div class="recent-moderations-card">
+  <div class="card-header">
+    <div>
+      <h3>{{ title }}</h3>
+      <p>Suivi des actions de modération récentes</p>
+    </div>
+    <button class="export-btn">Exporter Rapport</button>
+  </div>
+
+  <div class="filters">
+    <input type="text"
+           placeholder="Rechercher par produit ou modérateur"
+           [(ngModel)]="searchTerm"
+           class="search-input">
+    <select [(ngModel)]="selectedCategory" class="category-select">
+      <option>Toutes les actions</option>
+      <option>APPROVED</option>
+      <option>REJECTED</option>
+    </select>
+    <button class="filter-btn">Filtrer</button>
+  </div>
+
+  <table class="moderations-table" *ngIf="recentItems && recentItems.length > 0">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Produit</th>
+        <th>Modérateur</th>
+        <th>Action</th>
+        <th>Date</th>
+        <th>Raison</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of filteredItems">
+        <td>{{ item.id }}</td>
+        <td>{{ item.productTitle }}</td>
+        <td>{{ item.moderatorName }}</td>
+        <td>
+          <span class="status-badge" [ngClass]="getActionClass(item.action)">
+            {{ item.action === 'APPROVED' ? 'Approuvé' : 'Rejeté' }}
+          </span>
+        </td>
+        <td>{{ item.date | date:'short' }}</td>
+        <td>{{ item.reason || '-' }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div *ngIf="!recentItems || recentItems.length === 0" class="no-data">
+    <p>Aucune action récente trouvée.</p>
+  </div>
+</div>

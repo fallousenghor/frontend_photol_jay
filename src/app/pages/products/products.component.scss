@@ -1,0 +1,163 @@
+/* --- Conteneur principal --- */
+.products-container {
+  width: 100%;
+  min-height: 100vh;
+  position: relative;
+  padding: 0.75rem;
+  margin: 0 auto;
+  max-width: 1920px;
+  background-color: #f8f9fa;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+
+  // Sur tablette et plus
+  @media (min-width: 768px) {
+    padding: 2rem;
+    border-radius: 24px 24px 0 0;
+  }
+
+  @media (min-width: 1024px) {
+    padding: 2.5rem 3rem;
+  }
+}
+
+/* --- Header avec bouton toggle --- */
+.products-header {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+
+  .toggle-btn {
+    background: #007bff;
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 50px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(0, 123, 255, 0.3);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    position: relative;
+    overflow: hidden;
+
+    i {
+      font-size: 1rem;
+    }
+
+    // Responsive
+    @media (max-width: 480px) {
+      padding: 0.6rem 1.2rem;
+      font-size: 0.8rem;
+    }
+  }
+}
+
+/* --- Animation "tirer pour rafraîchir" --- */
+.pull-to-refresh {
+  position: absolute;
+  top: -60px;
+  left: 0;
+  right: 0;
+  height: 60px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #2c3e50, #34495e);
+  color: white;
+  font-size: 0.85rem;
+  border-radius: 0 0 20px 20px;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+
+  .refresh-icon {
+    margin-bottom: 6px;
+    animation: spin 1s linear infinite;
+    font-size: 1rem;
+  }
+}
+
+/* --- Texte si aucun produit --- */
+.no-products {
+  text-align: center;
+  padding: 3rem 1.5rem;
+  color: #555;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  margin: 3rem auto;
+  max-width: 360px;
+  transition: all 0.3s ease;
+
+  i {
+    font-size: 3.5rem;
+    margin-bottom: 1rem;
+    color: #adb5bd;
+  }
+
+  p {
+    font-size: 1.1rem;
+    font-weight: 500;
+  }
+
+  @media (min-width: 768px) {
+    padding: 4rem 2rem;
+    i {
+      font-size: 4rem;
+    }
+  }
+}
+
+/* --- Grille des produits --- */
+.products-grid {
+  display: grid;
+  width: 100%;
+  background-color: transparent;
+  gap: 0.75rem;
+  grid-template-columns: 1fr 1fr;
+  padding: 0.5rem 0.25rem;
+  justify-content: center;
+  align-items: stretch;
+  transition: all 0.3s ease;
+
+  // Tablette (3 cartes)
+  @media (min-width: 768px) {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    padding: 0;
+  }
+
+  // Bureau petit (4 cartes)
+  @media (min-width: 992px) {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.75rem;
+  }
+
+  // Grand écran
+  @media (min-width: 1200px) {
+    grid-template-columns: repeat(5, 1fr);
+    gap: 2rem;
+  }
+
+  // Très grand écran
+  @media (min-width: 1400px) {
+    grid-template-columns: repeat(6, 1fr);
+    gap: 2.25rem;
+  }
+}
+
+/* --- Animation du spinner --- */
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

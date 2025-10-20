@@ -1,0 +1,18 @@
+<div class="product-card">
+    <div class="product-image">
+        <img [src]="imageUrl" [alt]="product.title">
+        <div class="views-counter">
+            <i class="fas fa-eye"></i>
+            <span>{{product.views || 0}}</span>
+        </div>
+    </div>
+    <div class="product-info">
+        <h3 class="product-name">{{product.title}}</h3>
+        <div class="price-container">
+            <span class="current-price">{{product.price | cfa}}</span>
+        </div>
+        <button class="view-more-btn" (click)="viewDetails()">
+            <i class="fas fa-arrow-right"></i>
+        </button>
+    </div>
+</div>

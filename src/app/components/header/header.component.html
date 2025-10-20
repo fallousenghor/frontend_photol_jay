@@ -1,0 +1,48 @@
+<header class="header">
+    <div class="search-container">
+        <div class="search-box">
+            <i class="fas fa-search search-icon"></i>
+            <input
+                type="text"
+                [(ngModel)]="searchTerm"
+                (ngModelChange)="onSearchChange()"
+                placeholder="Rechercher..."
+                class="search-input"
+            >
+        </div>
+    </div>
+
+    <div class="category-container" [class.show]="showCategories">
+        <button class="category-btn" (click)="toggleCategories()">
+            <i class="fas fa-filter"></i>
+        </button>
+    </div>
+
+    <div class="categories-dropdown" [class.show]="showCategories">
+        <div class="dropdown-content">
+            <!-- Static categories -->
+            <div
+                *ngFor="let category of categoriesList"
+                class="category-item"
+                [class.active]="category === (selectedCategoryId === null ? 'all' : '')"
+                (click)="selectCategory(category)"
+            >
+                <i class="fas" [class]="'fas ' + getCategoryIcon(category)"></i>
+                <span>{{ category | titlecase }}</span>
+                <span class="item-count" *ngIf="getCategoryCount(category)">
+                    {{getCategoryCount(category)}}
+                </span>
+            </div>
+            <!-- Dynamic categories from API -->
+            <div
+                *ngFor="let category of categories"
+                class="category-item"
+                [class.active]="category.id === selectedCategoryId"
+                (click)="selectCategory(category.name)"
+            >
+                <i class="fas fa-folder"></i>
+                <span>{{ category.name | titlecase }}</span>
+            </div>
+        </div>
+    </div>
+</header>

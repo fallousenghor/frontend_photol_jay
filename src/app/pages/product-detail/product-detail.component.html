@@ -1,0 +1,84 @@
+<div class="product-detail-container" *ngIf="product">
+  <button class="back-button" (click)="goBack()">
+    <i class="fas fa-arrow-left"></i>
+    Retour aux produits
+  </button>
+
+  <div class="product-detail">
+    <div class="product-image-section">
+      <div class="image-gallery">
+        <div class="main-image">
+          <div class="image-slider" *ngIf="hasMultipleImages(); else singleImage">
+            <button class="slider-btn prev-btn" (click)="prevImage()" [disabled]="!hasMultipleImages()">
+              <i class="fas fa-chevron-left"></i>
+            </button>
+            <img [src]="getCurrentImageUrl()" [alt]="product.title" class="product-image">
+            <button class="slider-btn next-btn" (click)="nextImage()" [disabled]="!hasMultipleImages()">
+              <i class="fas fa-chevron-right"></i>
+            </button>
+          </div>
+          <ng-template #singleImage>
+            <img [src]="getCurrentImageUrl()" [alt]="product.title" class="product-image">
+          </ng-template>
+        </div>
+        <div class="image-thumbnails" *ngIf="hasMultipleImages()">
+          <div *ngFor="let img of product.images; let i = index"
+               class="thumbnail"
+               [class.active]="i === currentImageIndex"
+               (click)="currentImageIndex = i">
+            <img [src]="imageService.getImageUrl(img.url)" [alt]="product.title + ' thumbnail'">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="product-info-section">
+      <div class="product-header">
+        <div class="title-section">
+          <h1 class="product-name">{{product.title}}</h1>
+          <div class="product-actions" *ngIf="isOwner">
+            <button class="edit-btn" (click)="editProduct()">
+              <i class="fas fa-edit"></i>
+              Modifier
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="price-section">
+        <div class="price-wrapper">
+          <span class="current-price">{{product.price | currency}}</span>
+        </div>
+      </div>
+
+      <div class="description-section">
+        <h2>Description</h2>
+        <p class="product-description" *ngIf="product.description">{{product.description}}</p>
+      </div>
+
+      <div class="seller-info" *ngIf="product.user">
+        <h3>Contact vendeur</h3>
+        <div class="seller-name">
+          <i class="fas fa-user"></i>
+          <span>{{product.user.userName || 'Non spécifié'}}</span>
+        </div>
+        <div class="contact-buttons">
+          <a *ngIf="product.user.phoneNumber" [href]="'tel:' + product.user.phoneNumber" class="contact-btn phone-btn" title="Appeler">
+            <i class="fas fa-phone"></i>
+          </a>
+          <a *ngIf="product.user.whatsappNumber" [href]="getWhatsAppLink(product.user.whatsappNumber)" target="_blank" class="contact-btn whatsapp-btn" title="WhatsApp">
+            <i class="fab fa-whatsapp"></i>
+          </a>
+          <a [href]="'mailto:' + product.user.email" class="contact-btn email-btn" title="Email">
+            <i class="fas fa-envelope"></i>
+          </a>
+          <a *ngIf="product.user.shopLink" [href]="product.user.shopLink" target="_blank" class="contact-btn shop-btn" title="Visiter la boutique">
+            <i class="fas fa-store"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-loader *ngIf="isLoading"></app-loader>

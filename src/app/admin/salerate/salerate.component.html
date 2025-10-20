@@ -1,0 +1,22 @@
+<div class="sales-rate-card">
+  <h3>Sales Rate</h3>
+  <div class="donut-chart">
+    <canvas id="donutChart"></canvas>
+    <div class="center-text">
+      <div class="percentage">{{ percentage }}%</div>
+      <div class="label">Sales Rate</div>
+    </div>
+  </div>
+  <div class="metrics">
+    <div *ngFor="let metric of metrics" class="metric-item">
+      <span class="icon">📊</span>
+      <div class="metric-details">
+        <div class="metric-label">{{ metric.label }}</div>
+        <div class="metric-value">{{ metric.value }}</div>
+        <span class="change" [class.positive]="metric.positive">
+          +{{ metric.change }}%
+        </span>
+      </div>
+    </div>
+  </div>
+</div>

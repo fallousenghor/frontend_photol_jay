@@ -1,0 +1,27 @@
+/* Mobile first approach */
+.main-content {
+    padding: 1rem;
+    margin-top: calc(50px + 20px); /* Navbar (60px) + petit espace pour le header (20px) */
+}
+
+@media screen and (max-width: 768px) {
+    .main-content {
+        margin-top: calc(40px + 20px); /* Navbar (60px) + header (40px) sur mobile */
+    }
+}
+
+/* Tablette et plus */
+@media (min-width: 768px) {
+    .main-content {
+        padding-left: 2rem;
+        padding-right: 2rem;
+    }
+}
+
+/* Desktop */
+@media (min-width: 1024px) {
+    .main-content {
+        padding-left: 3rem;
+        padding-right: 3rem;
+    }
+}

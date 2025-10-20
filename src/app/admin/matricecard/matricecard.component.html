@@ -1,0 +1,23 @@
+<div class="metric-card" [class.large]="isLarge">
+  <div class="card-header">
+    <div class="title-section">
+      <span class="icon">
+        <i [class]="'icon-' + icon"></i>
+      </span>
+      <h3>{{ title }}</h3>
+    </div>
+    <button class="export-btn">Detail</button>
+  </div>
+
+  <div class="card-body">
+    <div class="value">{{ formattedValue }}</div>
+
+    <div class="change-indicator" [class.positive]="isPositive" [class.negative]="!isPositive">
+      <i [class]="isPositive ? 'icon-arrow-up' : 'icon-arrow-down'"></i>
+      <span>{{ change > 0 ? '+' : '' }}{{ change }}%</span>
+      <span class="period" *ngIf="period">{{ period }}</span>
+    </div>
+
+    <p class="subtitle" *ngIf="subtitle">{{ subtitle }}</p>
+  </div>
+</div>

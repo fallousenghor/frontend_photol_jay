@@ -1,0 +1,35 @@
+<div class="moderation-queue">
+  <div class="queue-header">
+    <h3>Produits en Attente de Modération</h3>
+    <span class="count">{{ pendingProducts.length }} produits</span>
+  </div>
+
+  <div class="pending-products" *ngIf="pendingProducts.length > 0; else noProducts">
+    <div *ngFor="let product of pendingProducts" class="pending-product-card">
+      <div class="product-info">
+        <div class="product-title">{{ product.title }}</div>
+        <div class="product-description">{{ product.description }}</div>
+        <div class="user-info">
+          <span>Par: {{ product.user.userName }}</span>
+          <span>{{ product.user.email }}</span>
+        </div>
+        <div class="product-date">Créé le: {{ product.createdAt | date:'short' }}</div>
+      </div>
+
+      <div class="product-images">
+        <img *ngFor="let image of product.images" [src]="image.url" alt="Product image" class="thumbnail">
+      </div>
+
+      <div class="actions">
+        <button class="approve-btn" (click)="approveProduct(product.id)">Approuver</button>
+        <button class="reject-btn" (click)="rejectProduct(product.id)">Rejeter</button>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #noProducts>
+    <div class="no-products">
+      <p>Aucun produit en attente de modération.</p>
+    </div>
+  </ng-template>
+</div>

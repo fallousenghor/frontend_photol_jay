@@ -1,0 +1,47 @@
+<div class="add-product-container">
+  <div class="add-product-card">
+    <h2 class="add-product-title">{{ isEditing ? 'Modifier le Produit' : 'Ajouter un Produit' }}</h2>
+    <form [formGroup]="productForm" (ngSubmit)="onSubmit()" class="add-product-form">
+      <div class="form-group">
+        <label for="title" class="form-label">Titre</label>
+        <input type="text" id="title" formControlName="title" class="form-input" placeholder="Titre du produit">
+        <div *ngIf="productForm.get('title')?.invalid && productForm.get('title')?.touched" class="error-message">
+          Le titre est requis et doit contenir au moins 3 caractères.
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="description" class="form-label">Description</label>
+        <textarea id="description" formControlName="description" class="form-textarea" placeholder="Description du produit"></textarea>
+        <div *ngIf="productForm.get('description')?.invalid && productForm.get('description')?.touched" class="error-message">
+          La description est requise et doit contenir au moins 10 caractères.
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="price" class="form-label">Prix (optionnel)</label>
+        <input type="number" id="price" formControlName="price" class="form-input" placeholder="Prix en €">
+        <div *ngIf="productForm.get('price')?.invalid && productForm.get('price')?.touched" class="error-message">
+          Le prix doit être positif.
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="categoryId" class="form-label">Catégorie (optionnel)</label>
+        <select id="categoryId" formControlName="categoryId" class="form-input">
+          <option value="">Sélectionner une catégorie</option>
+          <option *ngFor="let category of categories" [ngValue]="category.id">{{ category.name }}</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Photos</label>
+        <button type="button" (click)="takePhoto()" class="camera-btn">Prendre une Photo</button>
+        <div class="image-previews">
+          <img *ngFor="let img of images" [src]="img.url" class="preview-img" alt="Preview" />
+        </div>
+      </div>
+      <button type="submit" [disabled]="productForm.invalid" class="add-product-btn">{{ isEditing ? 'Modifier le Produit' : 'Ajouter le Produit' }}</button>
+    </form>
+    <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+    <div *ngIf="successMessage" class="success-message">{{ successMessage }}</div>
+  </div>
+</div>

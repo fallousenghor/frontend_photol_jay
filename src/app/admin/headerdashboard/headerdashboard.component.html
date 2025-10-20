@@ -1,0 +1,25 @@
+<header class="main-header">
+  <div class="logo">
+    <img [src]="zwaveLogo" alt="Z-WAVE">
+  </div>
+
+  <nav class="main-nav">
+    <button *ngFor="let item of menuItems"
+            [class.active]="item === activeMenu"
+            (click)="selectMenu(item)"
+            class="nav-item">
+      {{ item }}
+    </button>
+  </nav>
+
+  <div class="user-section">
+    <button class="notifications">
+      <i class="icon-bell"></i>
+    </button>
+    <div class="user-profile">
+      <img [src]="userAvatar" alt="{{ userName }}">
+      <span>{{ userName }} Michael</span>
+      <i class="icon-chevron-down"></i>
+    </div>
+  </div>
+</header>

@@ -1,0 +1,508 @@
+<div class="dashboard-container">
+
+
+  <div class="dashboard-content">
+    <!-- Section de chargement -->
+    <div class="loading" *ngIf="loading">
+      <div class="loading-spinner"></div>
+      <p>Chargement des données...</p>
+    </div>
+
+    <!-- Contenu principal -->
+    <div *ngIf="!loading && dashboardData">
+      <!-- Cartes de statistiques principales -->
+      <div class="stats-grid">
+        <div class="stat-card pending-card">
+          <div class="card-glow"></div>
+          <div class="card-content">
+            <div class="card-header">
+              <div class="card-icon">
+                <svg class="h-6 w-6 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+                </svg>
+              </div>
+              <span class="card-badge">En attente</span>
+            </div>
+            <div class="card-body">
+              <h3>Produits en attente</h3>
+              <div class="metric">
+                <span class="metric-value">{{dashboardData.pendingProducts || 0}}</span>
+                <span class="metric-unit">produits</span>
+              </div>
+            </div>
+            <div class="card-footer">
+              <span class="card-link">Voir détails</span>
+              <svg class="link-arrow" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+              </svg>
+            </div>
+          </div>
+        </div>
+
+        <div class="stat-card approved-card">
+          <div class="card-glow"></div>
+          <div class="card-content">
+            <div class="card-header">
+              <div class="card-icon">
+                <svg class="h-6 w-6 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
+                </svg>
+              </div>
+              <span class="card-badge">Approuvés</span>
+            </div>
+            <div class="card-body">
+              <h3>Produits approuvés</h3>
+              <div class="metric">
+                <span class="metric-value">{{dashboardData.approvedProducts || 0}}</span>
+                <span class="metric-unit">produits</span>
+              </div>
+            </div>
+            <div class="card-footer">
+              <span class="card-link">Voir détails</span>
+              <svg class="link-arrow" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+              </svg>
+            </div>
+          </div>
+        </div>
+
+        <div class="stat-card rejected-card">
+          <div class="card-glow"></div>
+          <div class="card-content">
+            <div class="card-header">
+              <div class="card-icon">
+                <svg class="h-6 w-6 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                </svg>
+              </div>
+              <span class="card-badge">Rejetés</span>
+            </div>
+            <div class="card-body">
+              <h3>Produits rejetés</h3>
+              <div class="metric">
+                <span class="metric-value">{{dashboardData.rejectedProducts || 0}}</span>
+                <span class="metric-unit">produits</span>
+              </div>
+            </div>
+            <div class="card-footer">
+              <span class="card-link">Voir détails</span>
+              <svg class="link-arrow" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+              </svg>
+            </div>
+          </div>
+        </div>
+
+        <div class="stat-card total-card">
+          <div class="card-glow"></div>
+          <div class="card-content">
+            <div class="card-header">
+              <div class="card-icon">
+                <svg class="h-6 w-6 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                </svg>
+              </div>
+              <span class="card-badge">Total</span>
+            </div>
+            <div class="card-body">
+              <h3>Total des modérations</h3>
+              <div class="metric">
+                <span class="metric-value">{{dashboardData.totalModerations || 0}}</span>
+                <span class="metric-unit">actions</span>
+              </div>
+            </div>
+            <div class="card-footer">
+              <span class="card-link">Voir détails</span>
+              <svg class="link-arrow" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+              </svg>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- Section des produits en attente -->
+      <div class="pending-section">
+        <div class="section-header">
+          <div class="section-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+            </svg>
+          </div>
+          <div class="section-info">
+            <h2>Produits en attente de modération</h2>
+            <p>Liste des produits nécessitant une validation</p>
+          </div>
+          <div class="section-actions">
+            <span class="product-count">{{pendingProducts.length}} produit(s)</span>
+            <button class="filter-btn">
+              <svg class="w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
+              </svg>
+              Filtrer
+            </button>
+          </div>
+        </div>
+
+        <div class="products-table-container">
+          <table class="products-table">
+            <thead>
+              <tr>
+                <th class="image-col">Image</th>
+                <th class="product-col">Produit</th>
+                <th class="seller-col">Vendeur</th>
+                <th class="date-col">Date</th>
+                <th class="actions-col">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let product of pendingProducts" class="product-row">
+                <td class="image-cell">
+                  <div class="product-image">
+                    <img *ngIf="product.images?.length" [src]="product.images[0].url" [alt]="product.title">
+                    <div *ngIf="!product.images?.length" class="no-image-placeholder">
+                      <i class="fas fa-image"></i>
+                      <span>Pas d'image</span>
+                    </div>
+                  </div>
+                </td>
+                <td class="product-cell">
+                  <div class="product-info">
+                    <h4>{{product.title}}</h4>
+                    <p>{{product.description}}</p>
+                  </div>
+                </td>
+                <td class="seller-cell">
+                  <div class="seller-info">
+                    <div class="seller-avatar">{{product.user.userName.charAt(0).toUpperCase()}}</div>
+                    <div class="seller-details">
+                      <div class="seller-name">{{product.user.userName}}</div>
+                      <div class="seller-email">{{product.user.email}}</div>
+                    </div>
+                  </div>
+                </td>
+                <td class="date-cell">
+                  <div class="date-info">
+                    <div class="date-main">{{product.createdAt | date:'shortDate'}}</div>
+                    <div class="date-time">{{product.createdAt | date:'shortTime'}}</div>
+                  </div>
+                </td>
+                <td class="actions-cell">
+                  <div class="action-buttons">
+                    <button (click)="showProductDetails(product)" class="btn-details">
+                      <svg class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                      </svg>
+                      Détails
+                    </button>
+                    <button (click)="onApproveProduct(product.id)" class="btn-approve">
+                      <svg class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                      </svg>
+                      Approuver
+                    </button>
+                    <button (click)="openRejectDialog(product.id)" class="btn-reject">
+                      <svg class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                      </svg>
+                      Rejeter
+                    </button>
+                  </div>
+                </td>
+              </tr>
+              <tr *ngIf="pendingProducts.length === 0" class="empty-row">
+                <td colspan="5" class="empty-cell">
+                  <div class="empty-state">
+                    <div class="empty-icon">
+                      <svg class="h-12 w-12 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                      </svg>
+                    </div>
+                    <h3>Aucun produit en attente</h3>
+                    <p>Tous les produits ont été examinés. Revenez plus tard pour de nouveaux produits à modérer.</p>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Section des actions récentes -->
+      <div class="recent-section">
+        <div class="recent-header">
+          <div class="header-left">
+            <div class="header-title">
+              <h2>
+                <span class="icon-wrapper">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                  </svg>
+                </span>
+                Actions Récentes
+                <span class="badge">Aujourd'hui</span>
+              </h2>
+              <!-- <p>Suivi des actions de modération récentes</p> -->
+            </div>
+          </div>
+          <!-- <div class="header-actions">
+            <button class="export-button" title="Exporter le rapport">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                <polyline points="7 10 12 15 17 10"/>
+                <line x1="12" y1="15" x2="12" y2="3"/>
+              </svg>
+              <span>Exporter le rapport</span>
+            </button>
+          </div> -->
+        </div>
+
+        <!-- <div class="filters-bar">
+          <div class="search-box">
+            <div class="search-input-wrapper">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8"/>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+              </svg>
+              <input
+                type="text"
+                placeholder="Rechercher par produit ou modérateur..."
+                [(ngModel)]="searchTerm"
+                class="search-input"
+                aria-label="Rechercher des actions"
+              >
+              <button class="clear-search" *ngIf="searchTerm" (click)="searchTerm = ''">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <line x1="18" y1="6" x2="6" y2="18"/>
+                  <line x1="6" y1="6" x2="18" y2="18"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+          <div class="filters-actions">
+            <div class="select-wrapper">
+              <select [(ngModel)]="filterType" class="filter-select" aria-label="Filtrer les actions">
+                <option value="all">Toutes les actions</option>
+                <option value="approved">Approuvé</option>
+                <option value="rejected">Rejeté</option>
+                <option value="pending">En attente</option>
+              </select>
+              <svg class="select-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="6 9 12 15 18 9"/>
+              </svg>
+            </div>
+          </div>
+        </div> -->
+
+        <div class="table-container">
+          <table class="moderation-table">
+            <thead>
+              <tr>
+                <th class="sortable" [class.sorted-asc]="sortBy === 'id'" (click)="sort('id')">No</th>
+                <th class="sortable" [class.sorted-asc]="sortBy === 'product'" (click)="sort('product')">Produit</th>
+                <th class="sortable" [class.sorted-asc]="sortBy === 'moderator'" (click)="sort('moderator')">Modérateur</th>
+                <th class="sortable" [class.sorted-asc]="sortBy === 'action'" (click)="sort('action')">Action</th>
+                <th class="sortable" [class.sorted-asc]="sortBy === 'date'" (click)="sort('date')">Date</th>
+                <th>Raison</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let action of filteredActions">
+                <td class="id-cell">{{action.id}}</td>
+                <td class="product-cell">
+                  <div class="product-info">
+                    <span class="product-name">{{action.productTitle}}</span>
+                  </div>
+                </td>
+                <td class="user-cell">
+                  <div class="user-info">
+                    <span class="user-avatar">{{action.moderatorName.charAt(0)}}</span>
+                    <span class="user-name">{{action.moderatorName}}</span>
+                  </div>
+                </td>
+                <td class="status-cell">
+                  <span class="status-badge" [ngClass]="action.action.toLowerCase()">
+                    <svg *ngIf="action.action === 'Approuvé'" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M20 6L9 17l-5-5"/>
+                    </svg>
+                    <svg *ngIf="action.action === 'Rejeté'" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M18 6L6 18M6 6l12 12"/>
+                    </svg>
+                    {{action.action}}
+                  </span>
+                </td>
+                <td class="date-cell">
+                  <div class="date-time">
+                    <span class="date">{{action.date | date:'shortDate'}}</span>
+                    <span class="time">{{action.date | date:'shortTime'}}</span>
+                  </div>
+                </td>
+                <td class="reason-cell">
+                  <span class="reason-text">{{action.reason || '-'}}</span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="table-footer">
+          <div class="rows-per-page">
+            <span>Lignes par page:</span>
+            <select [(ngModel)]="pageSize" (change)="onPageSizeChange()">
+              <option value="10">10</option>
+              <option value="25">25</option>
+              <option value="50">50</option>
+            </select>
+          </div>
+          <div class="pagination">
+            <button [disabled]="currentPage === 1" (click)="previousPage()">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M15 18l-6-6 6-6"/>
+              </svg>
+            </button>
+            <span class="page-info">Page {{currentPage}} sur {{totalPages}}</span>
+            <button [disabled]="currentPage === totalPages" (click)="nextPage()">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M9 18l6-6-6-6"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal de détails du produit -->
+  <div *ngIf="selectedProduct" class="modal-overlay" (click)="selectedProduct = null">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <div class="modal-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"/>
+          </svg>
+        </div>
+        <div class="modal-info">
+          <h3>Détails du produit</h3>
+          <p>Examinez les détails avant de prendre une décision</p>
+        </div>
+        <button (click)="selectedProduct = null" class="modal-close">
+          <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <div class="product-review-grid">
+          <!-- Galerie d'images -->
+          <div class="product-images">
+            <div class="main-image">
+              <img [src]="selectedProduct.images[0].url" [alt]="selectedProduct.title" class="primary-image">
+            </div>
+            <div class="image-thumbnails" *ngIf="selectedProduct.images.length > 1">
+              <div *ngFor="let image of selectedProduct.images.slice(1)" class="thumbnail">
+                <img [src]="image.url" [alt]="selectedProduct.title">
+              </div>
+            </div>
+          </div>
+
+          <!-- Détails du produit -->
+          <div class="product-info">
+            <div class="info-section">
+              <h2 class="product-title">{{selectedProduct.title}}</h2>
+              <div class="status-badge pending">En attente de modération</div>
+
+              <div class="description-box">
+                <h3>Description</h3>
+                <p>{{selectedProduct.description}}</p>
+              </div>
+
+              <!-- Informations du vendeur -->
+              <div class="seller-profile">
+                <div class="profile-header">
+                  <h3>Informations du vendeur</h3>
+                  <div class="profile-date">
+                    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                    </svg>
+                    Publication : {{selectedProduct.createdAt | date:'longDate'}}
+                  </div>
+                </div>
+
+                <div class="seller-card">
+                  <div class="avatar">{{selectedProduct.user.userName.charAt(0).toUpperCase()}}</div>
+                  <div class="seller-info">
+                    <div class="seller-name">{{selectedProduct.user.userName}}</div>
+                    <div class="seller-email">{{selectedProduct.user.email}}</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Actions de modération -->
+            <div class="moderation-actions">
+              <button (click)="onApproveProduct(selectedProduct.id)" class="action-button approve">
+                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                </svg>
+                <span>Approuver le produit</span>
+              </button>
+
+              <button (click)="openRejectDialog(selectedProduct.id)" class="action-button reject">
+                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+                <span>Rejeter le produit</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal de rejet -->
+  <div *ngIf="showRejectDialog" class="modal-overlay" (click)="closeRejectDialog()">
+    <div class="reject-modal" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <div class="modal-icon reject-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+          </svg>
+        </div>
+        <div class="modal-info">
+          <h3>Raison du rejet</h3>
+          <p>Veuillez expliquer pourquoi ce produit doit être rejeté</p>
+        </div>
+        <button (click)="closeRejectDialog()" class="modal-close">
+          <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+          </svg>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <div class="reject-form">
+          <label for="rejectReason">Motif du rejet</label>
+          <textarea id="rejectReason"
+                    [(ngModel)]="rejectReason"
+                    placeholder="Décrivez en détail pourquoi ce produit ne peut pas être approuvé..."></textarea>
+          <div class="form-hint">Soyez précis et constructif</div>
+        </div>
+
+        <div class="modal-actions">
+          <button (click)="confirmReject()" class="btn-confirm-reject">
+            <svg class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+            </svg>
+            Confirmer le rejet
+          </button>
+          <button (click)="closeRejectDialog()" class="btn-cancel">Annuler</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

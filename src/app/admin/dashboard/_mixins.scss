@@ -1,0 +1,169 @@
+@use './variables' as *;
+
+// Custom Scrollbar
+@mixin custom-scrollbar {
+  &::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.05);
+    border-radius: 4px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+
+    &:hover {
+      background: rgba(0, 0, 0, 0.2);
+    }
+  }
+}
+
+// Flexbox Helpers
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+// Card Styles
+@mixin card-base {
+  background: white;
+  border-radius: $radius-2xl;
+  box-shadow: $shadow-lg;
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  overflow: hidden;
+}
+
+// Button Styles
+@mixin button-base {
+  display: inline-flex;
+  align-items: center;
+  padding: $spacing-sm $spacing-md;
+  border-radius: $radius-md;
+  font-weight: 500;
+  transition: $transition-fast;
+  cursor: pointer;
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+// Status Badge
+@mixin status-badge($bg-color, $text-color) {
+  background: rgba($bg-color, 0.1);
+  color: $text-color;
+  padding: $spacing-xs $spacing-md;
+  border-radius: $radius-full;
+  font-size: 0.875rem;
+  font-weight: 500;
+  border: 1px solid rgba($bg-color, 0.2);
+}
+
+// Truncate Text
+@mixin text-truncate($lines: 1) {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: $lines;
+  -webkit-box-orient: vertical;
+}
+
+// Responsive Table
+@mixin responsive-table {
+  width: 100%;
+  min-width: 900px;
+  border-collapse: separate;
+  border-spacing: 0;
+
+  @media (max-width: $breakpoint-lg) {
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+// Hover Effect
+@mixin hover-lift {
+  transition: $transition-base;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: $shadow-xl;
+  }
+}
+
+// Grid Layout
+@mixin responsive-grid($min-width: 280px) {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax($min-width, 1fr));
+  gap: $spacing-lg;
+}
+
+// Icon Button
+@mixin icon-button($size: 2.5rem) {
+  width: $size;
+  height: $size;
+  border-radius: $radius-lg;
+  @include flex-center;
+  transition: $transition-fast;
+
+  svg {
+    width: $size * 0.5;
+    height: $size * 0.5;
+  }
+}
+
+// Glass Effect
+@mixin glass-effect {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+// Animations
+@mixin fade-in($duration: 0.3s) {
+  animation: fadeIn $duration ease-out;
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+}
+
+// Custom Scrollbar
+@mixin custom-scrollbar {
+  &::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: #f1f5f9;
+    border-radius: $radius-full;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: $radius-full;
+
+    &:hover {
+      background: #94a3b8;
+    }
+  }
+}
