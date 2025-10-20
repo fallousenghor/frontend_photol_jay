@@ -1,133 +1,131 @@
 .product-card {
-  position: relative;
-  background: white;
   width: 100%;
-  overflow: hidden;
-  border-radius: 12px;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
   display: flex;
-  flex-direction: column;
+  gap: 12px;
+  align-items: center;
+  background: #0f1722; // dark card background similar to screenshot
+  color: #e6eef8;
+  border-radius: 14px;
+  padding: 10px;
+  box-shadow: 0 6px 18px rgba(4, 6, 10, 0.45);
   cursor: pointer;
 
-  @media (min-width: 768px) {
-    border-radius: 20px;
-    margin-bottom: 0.75rem;
+  .thumbs {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    width: 64px;
+    min-width: 64px;
   }
 
-  // --- Image Produit ---
-  .product-image {
-    position: relative;
-    width: 100%;
-    aspect-ratio: 1 / 1; // ratio carré plus propre et responsive
+  .thumb, .thumb-placeholder {
+    width: 64px;
+    height: 64px;
+    border-radius: 10px;
     overflow: hidden;
-    border-radius: 12px 12px 0 0;
+    background: rgba(255,255,255,0.06);
 
     img {
       width: 100%;
       height: 100%;
       object-fit: cover;
-    }
-
-    // --- Badge réduction (optionnel) ---
-    .discount-badge {
-      position: absolute;
-      top: 8px;
-      left: 8px;
-      background-color: #e74c3c;
-      color: white;
-      padding: 3px 6px;
-      border-radius: 6px;
-      font-weight: 600;
-      font-size: 0.8rem;
-
-      @media (min-width: 768px) {
-        top: 10px;
-        left: 10px;
-        padding: 4px 8px;
-        font-size: 0.875rem;
-      }
-    }
-
-    // --- Nombre de vues ---
-    .views-counter {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      background: rgba(0, 0, 0, 0.55);
-      border-radius: 16px;
-      padding: 4px 8px;
-      display: flex;
-      align-items: center;
-      color: white;
-      font-size: 0.75rem;
-      backdrop-filter: blur(6px);
-
-      i {
-        margin-right: 5px;
-        font-size: 0.9rem;
-      }
+      display: block;
     }
   }
 
-  // --- Infos produit ---
-  .product-info {
-    position: relative;
-    padding: 0.8rem 1rem 3rem; // espace suffisant pour le bouton flottant
-    background: white;
+  .content {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    justify-content: center;
+  }
+
+  .title-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 
     .product-name {
-      font-weight: 600;
-      color: #2c3e50;
-      line-height: 1.4;
+      font-weight: 700;
       font-size: 0.95rem;
-      margin-bottom: 0.4rem;
+      color: #fff;
+      margin: 0;
       overflow: hidden;
       text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .views-counter {
+      background: rgba(255,255,255,0.06);
+      padding: 4px 8px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: #d6e6ff;
+      font-size: 0.8rem;
+
+      i { font-size: 0.85rem; }
+    }
+  }
+
+  .subtitle {
+    font-size: 0.78rem;
+    color: rgba(230,238,248,0.7);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    .dot { opacity: 0.6; }
+  }
+
+  .price-container {
+    .current-price {
+      font-weight: 800;
+      color: #dff6ff;
+      font-size: 0.95rem;
+    }
+  }
+
+  .view-more-btn {
+    align-self: flex-end;
+    width: 40px;
+    height: 40px;
+    background: rgba(255,255,255,0.06);
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  // Desktop/tablet: keep original card style with image on top
+  @media (min-width: 768px) {
+    flex-direction: column;
+    background: white;
+    color: #222;
+    border-radius: 12px;
+    padding: 0;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+
+    .thumbs { width: 100%; min-width: auto; }
+    .thumb, .thumb-placeholder { width: 100%; height: auto; border-radius: 12px 12px 0 0; }
+
+    .content { padding: 0.8rem 1rem 3rem; }
+
+    .title-row .product-name {
+      color: #2c3e50;
+      white-space: normal;
+      -webkit-line-clamp: 2;
+      line-clamp: 2;
       display: -webkit-box;
-      -webkit-line-clamp: 2; // coupe sur 2 lignes
       -webkit-box-orient: vertical;
+      overflow: hidden;
     }
 
-    .price-container {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      flex-wrap: wrap;
-      margin-bottom: 0;
+    .views-counter { position: absolute; top: 10px; right: 10px; background: rgba(0,0,0,0.55); color: #fff; padding: 4px 8px; border-radius: 16px; }
 
-      .current-price {
-        font-family: 'Roboto', sans-serif;
-        font-weight: 700;
-        font-size: 1.1rem;
-        color: #1a1a1a;
-      }
-
-      .original-price {
-        font-size: 0.9rem;
-        color: #95a5a6;
-        text-decoration: line-through;
-      }
-    }
-
-    // --- Bouton voir plus ---
-    .view-more-btn {
-      position: absolute;
-      bottom: 0.8rem;
-      right: 0.8rem;
-      width: 48px;
-      height: 48px;
-      background: #007bff;
-      color: white;
-      border: none;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 2px 8px rgba(0, 123, 255, 0.3);
-
-      i {
-        font-size: 1.1rem;
-      }
-    }
+    .view-more-btn { position: absolute; right: 0.8rem; bottom: 0.8rem; width: 48px; height: 48px; border-radius: 50%; background: #007bff; color: white; box-shadow: 0 2px 8px rgba(0,123,255,0.3); }
   }
 }

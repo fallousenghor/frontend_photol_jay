@@ -18,6 +18,13 @@
         </button>
     </div>
 
+    <!-- Toggle show all / my products moved to header -->
+    <div class="show-toggle-container">
+        <button class="toggle-show-btn" (click)="onToggleShowAll()" [attr.aria-pressed]="showAllProducts" [title]="showAllProducts ? 'Voir mes produits' : 'Voir tous les produits'">
+            <i class="fas fa-exchange-alt" aria-hidden="true"></i>
+        </button>
+    </div>
+
     <div class="categories-dropdown" [class.show]="showCategories">
         <div class="dropdown-content">
             <!-- Static categories -->

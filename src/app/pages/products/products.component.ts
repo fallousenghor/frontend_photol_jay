@@ -26,6 +26,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
   isFavorite: any;
   private filterSubscription: Subscription = new Subscription();
   private authSubscription: Subscription = new Subscription();
+  private showAllSubscription: Subscription = new Subscription();
 
   currentCategoryId?: number;
   isLoggedIn = false;
@@ -57,11 +58,18 @@ export class ProductsComponent implements OnInit, OnDestroy {
         this.loadProducts();
       }
     });
+
+    // subscribe to header toggle for showAllProducts
+    this.showAllSubscription = this.filterService.showAllProducts$.subscribe(v => {
+      this.showAllProducts = v;
+      this.loadProducts();
+    });
   }
 
   ngOnDestroy(): void {
     this.filterSubscription.unsubscribe();
     this.authSubscription.unsubscribe();
+    this.showAllSubscription.unsubscribe();
   }
 
   @HostListener('touchstart', ['$event'])

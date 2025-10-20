@@ -1,16 +1,33 @@
 <div class="product-card">
-    <div class="product-image">
-        <img [src]="imageUrl" [alt]="product.title">
-        <div class="views-counter">
-            <i class="fas fa-eye"></i>
-            <span>{{product.views || 0}}</span>
+    <!-- Mobile: horizontal compact card with left image stack and right content -->
+    <div class="thumbs">
+        <div class="thumb" *ngIf="product.images && product.images.length > 0">
+            <img [src]="imageUrl" [alt]="product.title">
+        </div>
+        <div class="thumb-placeholder" *ngIf="!product.images || product.images.length === 0">
+            <img [src]="imageUrl" [alt]="product.title">
         </div>
     </div>
-    <div class="product-info">
-        <h3 class="product-name">{{product.title}}</h3>
+
+    <div class="content">
+        <div class="title-row">
+            <h3 class="product-name">{{product.title}}</h3>
+            <div class="views-counter">
+                <i class="fas fa-eye"></i>
+                <span>{{product.views || 0}}</span>
+            </div>
+        </div>
+
+            <div class="subtitle">
+                <span class="category" *ngIf="categoryName">{{categoryName}}</span>
+                <span class="dot" *ngIf="categoryName && createdAtFormatted">•</span>
+                <span class="time" *ngIf="createdAtFormatted">{{createdAtFormatted}}</span>
+            </div>
+
         <div class="price-container">
             <span class="current-price">{{product.price | cfa}}</span>
         </div>
+
         <button class="view-more-btn" (click)="viewDetails()">
             <i class="fas fa-arrow-right"></i>
         </button>

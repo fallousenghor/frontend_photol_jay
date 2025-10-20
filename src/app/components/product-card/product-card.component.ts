@@ -28,6 +28,20 @@ export class ProductCardComponent {
     return DEFAULT_IMAGE_BASE64;
   }
 
+  get categoryName(): string | null {
+    return this.product && (this.product as any).category ? (this.product as any).category.name : null;
+  }
+
+  get createdAtFormatted(): string | null {
+    if (!this.product || !this.product.createdAt) return null;
+    try {
+      const d = new Date(this.product.createdAt as any);
+      return d.toLocaleDateString();
+    } catch {
+      return null;
+    }
+  }
+
   getOriginalPrice(): number {
     const price = this.product.price || 0;
     return price; // No discount in backend, so original price is the price

@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiUrl: 'http://localhost:3007',
+  apiUrl: 'https://backend-photo-jay.onrender.com',
 };

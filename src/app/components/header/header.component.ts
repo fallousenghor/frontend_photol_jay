@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { CategoryService } from '../../services/category.service';
 import { Category } from '../../models/product.interface';
 import { Subscription } from 'rxjs';
+import { FilterService } from '../../services/filter.service';
 
 @Component({
   selector: 'app-header',
@@ -21,6 +22,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
   showCategories: boolean = false;
   categories: Category[] = [];
   private subscription: Subscription = new Subscription();
+  private showAllSub: Subscription = new Subscription();
+  showAllProducts: boolean = false;
 
   categoriesList: string[] = [
     'all',
@@ -43,14 +46,17 @@ export class HeaderComponent implements OnInit, OnDestroy {
     'populaire': 'fa-fire'
   };
 
-  constructor(private categoryService: CategoryService) {}
+  constructor(private categoryService: CategoryService, private filterService: FilterService) {}
 
   ngOnInit(): void {
     this.loadCategories();
+    // subscribe to global showAllProducts toggle
+    this.showAllSub = this.filterService.showAllProducts$.subscribe(v => this.showAllProducts = v);
   }
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
+    this.showAllSub.unsubscribe();
   }
 
   loadCategories(): void {
@@ -97,5 +103,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
     this.showCategories = false;
     this.categorySelected.emit(this.selectedCategoryId);
+  }
+
+  onToggleShowAll(): void {
+    this.filterService.toggleShowAllProducts();
   }
 }
